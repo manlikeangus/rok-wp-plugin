@@ -12,6 +12,9 @@ Displays remote job openings provided by remoteok.io
 == Description ==
 Displays remote job openings provided by remoteok.io\'s API
 
+### Acknowlegements
+This tool uses the [remoteOK.io API](https://remoteok.io/api) by [Pieter Levels](https://www.producthunt.com/posts/remote-ok-jobs-api)
+
 == Installation ==
 1. In the WordPress Dashboard go to Plugins, then click the Add Plugins button and search the WordPress Plugins Directory for \'RemoteOK.io Job Listings\'.
 2. Activate the plugin through the ‘Plugins’ screen in WordPress.
