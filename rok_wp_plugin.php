@@ -54,7 +54,7 @@ class mtc_remoteok extends WP_Widget {
 		extract( $args );
 		// Check the widget options
 		$title    = isset( $instance['title'] ) ? apply_filters( 'widget_title', $instance['title'] ) : '';
-		$page_size     = isset( $instance['page_size'] ) ? $instance['page_size'] : '';
+		$page_size = isset( $instance['page_size'] ) ? $instance['page_size'] : '';
         
         // WordPress core before_widget hook
 		echo $before_widget;
@@ -84,35 +84,24 @@ class mtc_remoteok extends WP_Widget {
 	}
 
     public function getdata(){
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://remoteok.io/api",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET"
-        ));
-          
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-        
-        curl_close($curl);
-        if ($err) {
-        $data = json_encode(array("status" => "error", "message" => $err));
-        } else {
-        $data = json_decode($response, true);
-        unset($data[0]);
-        $data = json_encode(array("status"=>"successful", "message" => "Data successfully retrieved", "data"=>array_values($data)));
+        $url = "https://remoteok.io/api";
+        try{
+            $response = wp_remote_retrieve_body(wp_remote_get($url));
+            $data = json_decode($response, true);
+            unset($data[0]);
+            
+            $data = json_encode(array("status" => "successful", "message" => "Data successfully retrieved", "data" => array_values($data)));
+        }catch(Exception $ex){
+            $data = json_encode(array("status" => "error", "message" => $ex->getMessage()));
         }
 
-        wp_enqueue_script('rok_js', plugins_url('assets/js/rok.js?t='.time(), MTC_ROK_PLUGIN_FILE), array('jquery'), '1.0.0', true );
+        wp_enqueue_script('rok_js', plugins_url('assets/js/rok.js', MTC_ROK_PLUGIN_FILE), array('jquery'), '1.0.0', true );
         $reshuffled_data = array('l10n_print_after' => 'rok_data = ' . $data . ';');
-        wp_localize_script( 'rok_js', 'rok_filler_data', $reshuffled_data);
+        wp_localize_script('rok_js', 'rok_filler_data', $reshuffled_data);
     }
 
     public function loadcss(){
-        wp_enqueue_style( 'dashicons' );
+        wp_enqueue_style('dashicons');
         wp_enqueue_style('rok_css', plugins_url('assets/css/rok.css', MTC_ROK_PLUGIN_FILE), array(), '1.0.0', 'all');
     }
 }

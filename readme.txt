@@ -1,4 +1,4 @@
-=== RemoteOK.io Job Listings ===
+=== Job Listings from RemoteOK.io ===
 Contributors: angusokereafor
 Tags: remote work, remote jobs, remote, jobs, remoteok.io, remoteok, job listings, job listing
 Requires at least: 4.7
