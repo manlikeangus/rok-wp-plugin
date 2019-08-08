@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: remoteok.io Job Listings
+Plugin Name: Job Listings from remoteok.io
 Plugin URI: https://www.angusokereafor.com/fun-projects/remote-ok-plugin/
 Description: Displays remote job openings provided by remoteok.io
 Version: 1.0.0
